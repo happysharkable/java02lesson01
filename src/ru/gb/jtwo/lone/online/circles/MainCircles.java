@@ -10,6 +10,7 @@ public class MainCircles extends JFrame {
     private static final int WINDOW_HEIGHT = 600;
 
     Sprite[] sprites = new Sprite[10];
+    Background background;
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
@@ -25,6 +26,7 @@ public class MainCircles extends JFrame {
         setBounds(POS_X, POS_Y, WINDOW_WIDTH, WINDOW_HEIGHT);
         initApplication();
         GameCanvas canvas = new GameCanvas(this);
+        background = new Background(canvas);
         add(canvas, BorderLayout.CENTER);
         setTitle("Circles");
         setVisible(true);
@@ -45,6 +47,9 @@ public class MainCircles extends JFrame {
         for (int i = 0; i < sprites.length; i++) {
             sprites[i].update(canvas, deltaTime);
         }
+
+        //need a time divider to make color change not so epileptic
+        if ((int)(deltaTime * 10000) % 30 == 0) { background.setBackgroundColor(canvas); }
     }
 
     private void render(GameCanvas canvas, Graphics g) {
